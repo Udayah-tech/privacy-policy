@@ -5,49 +5,338 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShriSync AI - Automation & Apps</title>
     <style>
-        :root { --primary: #8b5cf6; --secondary: #10b981; --dark: #0f172a; --light: #f1f5f9; }
-        body { font-family: 'Inter', system-ui, sans-serif; margin: 0; padding: 0; color: #334155; background: white; }
-        
-        /* Nav */
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(255,255,255,0.95); position: sticky; top: 0; backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid #e2e8f0; }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--dark); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        .logo span { color: var(--primary); }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.95rem; }
-        .nav-links a:hover { color: var(--primary); }
-        .btn-contact { background: var(--dark); color: white !important; padding: 10px 25px; border-radius: 50px; transition: transform 0.2s; }
-        .btn-contact:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        :root {
+            --primary: #8b5cf6;
+            --secondary: #10b981;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #334155;
+            background: white;
+            overflow-x: hidden;
+        }
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(255, 255, 255, 0.8);
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1001;
+        }
+        .logo span {
+            color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            z-index: 1001;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .btn-contact {
+            background: var(--dark);
+            color: white !important;
+            padding: 10px 25px;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.39);
+        }
+        .btn-contact:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.23);
+        }
+        /* Canvas Background */
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
         /* Hero */
-        header { padding: 100px 5%; text-align: center; background: linear-gradient(180deg, #f8fafc 0%, #fff 100%); }
-        h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 20px; color: var(--dark); }
-        .hero-text { font-size: 1.25rem; color: #64748b; max-width: 700px; margin: 0 auto 40px; }
-        .gradient-text { background: linear-gradient(to right, var(--primary), #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header {
+            padding: 100px 5%;
+            text-align: center;
+            position: relative;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: var(--dark);
+            z-index: 1;
+            opacity: 0;
+            animation: fadeUp 0.8s forwards;
+        }
+        .hero-text {
+            font-size: 1.25rem;
+            color: #64748b;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            z-index: 1;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.2s forwards;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, var(--primary), #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .cta-btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, var(--primary), #ec4899);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s;
+            z-index: 1;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.4s forwards;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        .cta-btn:hover {
+            transform: scale(1.05);
+        }
         /* Sections */
-        .section-title { text-align: center; margin-bottom: 60px; }
-        .section-title h2 { font-size: 2.5rem; color: var(--dark); margin-bottom: 15px; }
-        .section { padding: 80px 10%; }
-        .bg-light { background: #f8fafc; }
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        .section {
+            padding: 80px 10%;
+            position: relative;
+            background: white;
+            z-index: 1;
+        }
+        .bg-light {
+            background: #f8fafc;
+        }
         /* Services Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-        .card { background: white; padding: 40px; border-radius: 20px; border: 1px solid #e2e8f0; transition: all 0.3s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-color: var(--primary); }
-        .icon { font-size: 2.5rem; margin-bottom: 20px; display: inline-block; padding: 15px; background: #f1f5f9; border-radius: 15px; }
-        /* App Showcase */
-        .app-showcase { display: flex; align-items: center; gap: 60px; padding: 60px; background: var(--dark); border-radius: 30px; color: white; margin-top: 40px; }
-        .app-content h3 { font-size: 2rem; margin-bottom: 15px; }
-        .app-content p { color: #94a3b8; margin-bottom: 30px; font-size: 1.1rem; }
-        .app-stats { display: flex; gap: 40px; margin-bottom: 30px; }
-        .stat strong { display: block; font-size: 1.5rem; color: var(--secondary); }
-        .app-btn { background: white; color: var(--dark); padding: 15px 30px; border-radius: 10px; text-decoration: none; font-weight: bold; display: inline-block; }
-        .legal-link { color: #64748b; font-size: 0.9rem; margin-left: 20px; text-decoration: none; }
-        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            border-color: var(--primary);
+        }
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            padding: 15px;
+            background: #f1f5f9;
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+        .card:hover .icon {
+            transform: rotate(10deg) scale(1.1);
+            background: #f3e8ff;
+        }
+        /* App Showcase (Glassmorphism) */
+        .app-showcase {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            padding: 60px;
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 30px;
+            color: white;
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .app-showcase::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+            animation: spin 10s linear infinite;
+        }
+        .app-content {
+            position: relative;
+            z-index: 2;
+        }
+        .app-content h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        .app-content p {
+            color: #94a3b8;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        .app-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .stat strong {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            counter-reset: num;
+        }
+        .app-btn {
+            background: white;
+            color: var(--dark);
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .app-btn:hover {
+            transform: scale(1.05);
+        }
+        .legal-link {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-left: 20px;
+            text-decoration: none;
+            border-bottom: 1px dashed #64748b;
+        }
         /* Footer */
-        footer { background: white; padding: 50px 10%; border-top: 1px solid #e2e8f0; text-align: center; color: #64748b; }
-        .social-links { margin-bottom: 30px; display: flex; justify-content: center; gap: 20px; }
-        .social-links a { color: var(--dark); font-size: 1.5rem; text-decoration: none; }
+        footer {
+            background: white;
+            padding: 50px 10%;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            color: #64748b;
+            position: relative;
+            z-index: 10;
+        }
+        .social-links {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .social-links a {
+            color: var(--dark);
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .social-links a:hover {
+            color: var(--primary);
+        }
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .app-showcase { flex-direction: column; text-align: center; }
+            h1 {
+                font-size: 2.5rem;
+            }
+            .app-showcase {
+                flex-direction: column;
+                text-align: center;
+            }
+            header {
+                height: auto;
+                padding: 150px 5% 100px;
+            }
         }
     </style>
 </head>
@@ -60,9 +349,12 @@
             <a href="mailto:support@shrisync.com" class="btn-contact">Get in Touch</a>
         </div>
     </nav>
+    <div id="canvas-container"><canvas id="ai-network"></canvas></div>
     <header>
         <h1>Next-Gen Automation <br> <span class="gradient-text">& Intelligent Apps</span></h1>
-        <p class="hero-text">We build powerful n8n workflows and smart utility applications to streamline your digital life.</p>
+        <p class="hero-text">We build powerful n8n workflows and smart utility applications to streamline your digital
+            life.</p>
+        <a href="#services" class="cta-btn">Explore Solutions</a>
     </header>
     <section id="services" class="section bg-light">
         <div class="section-title">
@@ -73,7 +365,8 @@
             <div class="card">
                 <span class="icon">🤖</span>
                 <h3>n8n Automation</h3>
-                <p>Custom workflows to connect your apps. We automate data entry, marketing, and business logic with n8n.</p>
+                <p>Custom workflows to connect your apps. We automate data entry, marketing, and business logic with
+                    n8n.</p>
             </div>
             <div class="card">
                 <span class="icon">🧠</span>
@@ -91,12 +384,12 @@
         <div class="section-title">
             <h2>Our Products</h2>
         </div>
-        
         <!-- Smart Fun Calculator -->
         <div class="app-showcase">
             <div class="app-content">
                 <h3>Smart Fun Calculator</h3>
-                <p>The ultimate unit converter for professionals and students. Features mass, length, and area conversions including specialized units like <strong>Tola</strong> and <strong>Soot</strong>.</p>
+                <p>The ultimate unit converter for professionals and students. Features mass, length, and area
+                    conversions including specialized units like <strong>Tola</strong> and <strong>Soot</strong>.</p>
                 <div class="app-stats">
                     <div class="stat"><strong>50+</strong>Units</div>
                     <div class="stat"><strong>Fast</strong>Conversion</div>
@@ -117,5 +410,73 @@
         <p>Ready to automate? Email us at <a href="mailto:support@shrisync.com">support@shrisync.com</a></p>
         <p style="margin-top: 20px; font-size: 0.9rem;">&copy; 2026 ShriSync. All rights reserved.</p>
     </footer>
+    <script>
+        // AI NEURAL NETWORK ANIMATION
+        const canvas = document.getElementById('ai-network');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        const particleCount = 60;
+        const connectionDistance = 150;
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1; // Velocity
+                this.vy = (Math.random() - 0.5) * 1;
+                this.size = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                // Bounce off edges
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(139, 92, 246, 0.5)'; // Primary color opacity
+                ctx.fill();
+            }
+        }
+        function init() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+                // Draw connections
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(139, 92, 246, ${1 - dist / connectionDistance})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+        window.addEventListener('resize', () => { resize(); init(); });
+        resize();
+        init();
+        animate();
+    </script>
 </body>
 </html>
