@@ -1,33 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Privacy Policy - Smart Fun Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShriSync AI - Automation & Apps</title>
     <style>
-        body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
-        h1 { color: #333; }
-        h2 { color: #555; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        :root { --primary: #8b5cf6; --secondary: #10b981; --dark: #0f172a; --light: #f1f5f9; }
+        body { font-family: 'Inter', system-ui, sans-serif; margin: 0; padding: 0; color: #334155; background: white; }
+        
+        /* Nav */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(255,255,255,0.95); position: sticky; top: 0; backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid #e2e8f0; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--dark); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .logo span { color: var(--primary); }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.95rem; }
+        .nav-links a:hover { color: var(--primary); }
+        .btn-contact { background: var(--dark); color: white !important; padding: 10px 25px; border-radius: 50px; transition: transform 0.2s; }
+        .btn-contact:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        /* Hero */
+        header { padding: 100px 5%; text-align: center; background: linear-gradient(180deg, #f8fafc 0%, #fff 100%); }
+        h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 20px; color: var(--dark); }
+        .hero-text { font-size: 1.25rem; color: #64748b; max-width: 700px; margin: 0 auto 40px; }
+        .gradient-text { background: linear-gradient(to right, var(--primary), #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* Sections */
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 2.5rem; color: var(--dark); margin-bottom: 15px; }
+        .section { padding: 80px 10%; }
+        .bg-light { background: #f8fafc; }
+        /* Services Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .card { background: white; padding: 40px; border-radius: 20px; border: 1px solid #e2e8f0; transition: all 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-color: var(--primary); }
+        .icon { font-size: 2.5rem; margin-bottom: 20px; display: inline-block; padding: 15px; background: #f1f5f9; border-radius: 15px; }
+        /* App Showcase */
+        .app-showcase { display: flex; align-items: center; gap: 60px; padding: 60px; background: var(--dark); border-radius: 30px; color: white; margin-top: 40px; }
+        .app-content h3 { font-size: 2rem; margin-bottom: 15px; }
+        .app-content p { color: #94a3b8; margin-bottom: 30px; font-size: 1.1rem; }
+        .app-stats { display: flex; gap: 40px; margin-bottom: 30px; }
+        .stat strong { display: block; font-size: 1.5rem; color: var(--secondary); }
+        .app-btn { background: white; color: var(--dark); padding: 15px 30px; border-radius: 10px; text-decoration: none; font-weight: bold; display: inline-block; }
+        .legal-link { color: #64748b; font-size: 0.9rem; margin-left: 20px; text-decoration: none; }
+        
+        /* Footer */
+        footer { background: white; padding: 50px 10%; border-top: 1px solid #e2e8f0; text-align: center; color: #64748b; }
+        .social-links { margin-bottom: 30px; display: flex; justify-content: center; gap: 20px; }
+        .social-links a { color: var(--dark); font-size: 1.5rem; text-decoration: none; }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .app-showcase { flex-direction: column; text-align: center; }
+        }
     </style>
 </head>
 <body>
-    <h1>Privacy Policy for Smart Fun Calculator</h1>
-    <p><strong>Last updated:</strong> January 2026</p>
-    
-    <p><strong>Smart Fun Calculator</strong> ("we", "our", or "us") operates the Smart Fun Calculator mobile application (the "App").</p>
-    <h2>1. Information Collection</h2>
-    <p>We do <strong>not</strong> collect, store, or share any personal information from our users. The App functions as a standalone utility tool for calculations and unit conversions.</p>
-    <ul>
-        <li><strong>Personal Data:</strong> We do not collect names, email addresses, or phone numbers.</li>
-        <li><strong>Location Data:</strong> We do not access or track your location.</li>
-        <li><strong>Device Data:</strong> We do not collect unique device identifiers or usage data.</li>
-    </ul>
-    <h2>2. Permissions</h2>
-    <p>The App requests the following permissions for technical functionality only:</p>
-    <ul>
-        <li><strong>INTERNET:</strong> Used to load the local user interface assets and resources required by the App framework.</li>
-    </ul>
-    <h2>3. Third-Party Services</h2>
-    <p>The App does not integrate with third-party tracking or advertising services that collect user data.</p>
-    <h2>4. Contact Us</h2>
-    <p>If you have any questions about this Privacy Policy, please contact us at: <a href="mailto:support@shrisync.com">support@shrisync.com</a> or visit <a href="https://ai.shrisync.com">ai.shrisync.com</a></p>
+    <nav>
+        <a href="#" class="logo"><span>⚡</span> ShriSync AI</a>
+        <div class="nav-links">
+            <a href="#services">Services</a>
+            <a href="#apps">Apps</a>
+            <a href="mailto:support@shrisync.com" class="btn-contact">Get in Touch</a>
+        </div>
+    </nav>
+    <header>
+        <h1>Next-Gen Automation <br> <span class="gradient-text">& Intelligent Apps</span></h1>
+        <p class="hero-text">We build powerful n8n workflows and smart utility applications to streamline your digital life.</p>
+    </header>
+    <section id="services" class="section bg-light">
+        <div class="section-title">
+            <h2>Our Expertise</h2>
+            <p>From complex backend automation to user-friendly mobile experiences.</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <span class="icon">🤖</span>
+                <h3>n8n Automation</h3>
+                <p>Custom workflows to connect your apps. We automate data entry, marketing, and business logic with n8n.</p>
+            </div>
+            <div class="card">
+                <span class="icon">🧠</span>
+                <h3>AI Integration</h3>
+                <p>Leveraging LLMs and Generative AI to build smarter business tools and content generators.</p>
+            </div>
+            <div class="card">
+                <span class="icon">📱</span>
+                <h3>App Development</h3>
+                <p>Cross-platform mobile applications built with modern web technologies and Capacitor.</p>
+            </div>
+        </div>
+    </section>
+    <section id="apps" class="section">
+        <div class="section-title">
+            <h2>Our Products</h2>
+        </div>
+        
+        <!-- Smart Fun Calculator -->
+        <div class="app-showcase">
+            <div class="app-content">
+                <h3>Smart Fun Calculator</h3>
+                <p>The ultimate unit converter for professionals and students. Features mass, length, and area conversions including specialized units like <strong>Tola</strong> and <strong>Soot</strong>.</p>
+                <div class="app-stats">
+                    <div class="stat"><strong>50+</strong>Units</div>
+                    <div class="stat"><strong>Fast</strong>Conversion</div>
+                    <div class="stat"><strong>Offline</strong>Ready</div>
+                </div>
+                <div>
+                    <a href="#" class="app-btn">Coming Soon to Play Store</a>
+                    <a href="privacy.html" class="legal-link">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="social-links">
+            <a href="#">💼</a> <!-- LinkedIn placeholder -->
+            <a href="#">🐙</a> <!-- GitHub placeholder -->
+        </div>
+        <p>Ready to automate? Email us at <a href="mailto:support@shrisync.com">support@shrisync.com</a></p>
+        <p style="margin-top: 20px; font-size: 0.9rem;">&copy; 2026 ShriSync. All rights reserved.</p>
+    </footer>
 </body>
 </html>
