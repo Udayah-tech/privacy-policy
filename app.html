@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Fun Calculator - Web App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Web-Specific Overrides to make it look good on desktop too */
+        body {
+            background: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            /* Mobile width constraint for desktop */
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+            .container {
+                margin: 20px auto;
+                min-height: 90vh;
+                border-radius: 20px;
+                overflow: hidden;
+                border: 8px solid #333;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="assets/logo.png" alt="Smart Fun Calculator Logo" class="app-logo">
+            <h1>Smart Fun Calculator</h1>
+            <p>Convert Units & Solve Math! ✨</p>
+        </header>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="converter">Converter</button>
+            <button class="tab-btn" data-tab="calculator">Calculator</button>
+            <button class="tab-btn" data-tab="games">🎮 Games</button>
+        </div>
+        <main class="converter-card">
+            <!-- CONVERTER TAB -->
+            <div id="tab-converter" class="tab-content active">
+                <div class="category-scroll">
+                    <button class="cat-chip active" data-cat="Length">📏 Length</button>
+                    <button class="cat-chip" data-cat="Mass">⚖️ Mass</button>
+                    <button class="cat-chip" data-cat="Area">⬜ Area</button>
+                    <button class="cat-chip" data-cat="Volume">🧊 Volume</button>
+                    <button class="cat-chip" data-cat="Temperature">🌡️ Temp</button>
+                    <button class="cat-chip" data-cat="Speed">🚀 Speed</button>
+                    <button class="cat-chip" data-cat="Pressure">🔩 Pressure</button>
+                    <button class="cat-chip" data-cat="Force">💪 Force</button>
+                </div>
+                <div class="input-group">
+                    <label for="smart-input" id="input-label">📏 Enter Length</label>
+                    <input type="text" id="smart-input" placeholder="e.g. 5inch 3mm 2soot" autocomplete="off" autofocus>
+                    <div class="unit-chips">
+                        <!-- Injected by JS -->
+                    </div>
+                    <p class="hint">Try: 5inch 3mm, 8soot, 1'2"</p>
+                </div>
+                <div class="results-container" id="results-container">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+            <!-- CALCULATOR TAB -->
+            <div id="tab-calculator" class="tab-content">
+                <div class="calc-display">
+                    <div class="calc-history" id="calc-history"></div>
+                    <div class="calc-current" id="calc-current">0</div>
+                    <button class="btn-sci-toggle" id="sci-toggle" title="Toggle Scientific Mode">🔬 Scientific</button>
+                </div>
+                <div class="calc-grid simple-mode" id="calc-grid">
+                    <!-- Scientific Keys (Hidden by default) -->
+                    <button class="btn-sci" data-action="sci" data-val="sin">sin</button>
+                    <button class="btn-sci" data-action="sci" data-val="cos">cos</button>
+                    <button class="btn-sci" data-action="sci" data-val="tan">tan</button>
+                    <button class="btn-sci" data-action="sci" data-val="log">log</button>
+                    <button class="btn-sci" data-action="sci" data-val="ln">ln</button>
+                    <button class="btn-sci" data-action="sci" data-val="(">(</button>
+                    <button class="btn-sci" data-action="sci" data-val=")">)</button>
+                    <button class="btn-sci" data-action="sci" data-val="^">^</button>
+                    <button class="btn-sci" data-action="sci" data-val="sqrt">√</button>
+                    <button class="btn-sci" data-action="sci" data-val="pi">π</button>
+                    <button class="btn-sci" data-action="sci" data-val="e">e</button>
+                    <button class="btn-sci" data-action="sci" data-val="inv">1/x</button>
+                    <!-- Standard Keys -->
+                    <button class="btn-op" data-action="clear">C</button>
+                    <button class="btn-op" data-action="delete">⌫</button>
+                    <button class="btn-op" data-action="operator" data-val="%">%</button>
+                    <button class="btn-op" data-action="operator" data-val="/">÷</button>
+                    <button class="btn-num" data-val="7">7</button>
+                    <button class="btn-num" data-val="8">8</button>
+                    <button class="btn-num" data-val="9">9</button>
+                    <button class="btn-op" data-action="operator" data-val="*">×</button>
+                    <button class="btn-num" data-val="4">4</button>
+                    <button class="btn-num" data-val="5">5</button>
+                    <button class="btn-num" data-val="6">6</button>
+                    <button class="btn-op" data-action="operator" data-val="-">-</button>
+                    <button class="btn-num" data-val="1">1</button>
+                    <button class="btn-num" data-val="2">2</button>
+                    <button class="btn-num" data-val="3">3</button>
+                    <button class="btn-op" data-action="operator" data-val="+">+</button>
+                    <button class="btn-num " data-val="0">0</button>
+                    <button class="btn-num" data-val=".">.</button>
+                    <button class="btn-eq" data-action="calculate">=</button>
+                </div>
+            </div>
+            <!-- GAMES TAB -->
+            <div id="tab-games" class="tab-content">
+                <!-- AGE SELECTION HUB -->
+                <div id="age-selector" class="game-view active">
+                    <h2 class="game-title">Choose Your Mode! 🚀</h2>
+                    <div class="game-grid">
+                        <button class="game-card mode-toddler" onclick="selectAgeMode('toddler')">
+                            <span class="icon">👶</span>
+                            <span class="label">Toddlers (2-5)</span>
+                            <span class="sub-label">Fun Counting!</span>
+                        </button>
+                        <button class="game-card mode-student" onclick="selectAgeMode('student')">
+                            <span class="icon">🎓</span>
+                            <span class="label">Students (5-18)</span>
+                            <span class="sub-label">Math Drills!</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- TODDLER ZONE (2-5 Years) -->
+                <div id="game-toddler" class="game-view">
+                    <div class="game-header">
+                        <button class="btn-back" onclick="showAgeSelector()">⬅️ Menu</button>
+                        <div class="level-badge toddler">Stars: <span id="toddler-score">0</span></div>
+                    </div>
+                    <div class="toddler-area">
+                        <h3 class="instruction">Count the Emojis! 🍎</h3>
+                        <div id="emoji-display" class="emoji-container">
+                            <!-- Emojis injected here -->
+                        </div>
+                        <div class="toddler-options" id="toddler-options">
+                            <!-- Number buttons injected here -->
+                        </div>
+                        <div id="toddler-feedback" class="feedback-msg"></div>
+                    </div>
+                </div>
+                <!-- STUDENT ZONE (5-18 Years) -->
+                <div id="game-student" class="game-view">
+                    <div class="game-header">
+                        <button class="btn-back" onclick="showAgeSelector()">⬅️ Menu</button>
+                        <div id="student-timer" class="timer-badge">⏳ 10s</div>
+                        <div class="score-badge">⭐ <span id="student-score-val">0</span></div>
+                        <div class="level-badge student">Lvl <span id="student-level">1</span></div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="student-progress" style="width: 0%"></div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-text" id="student-question">Ready?</div>
+                        <div class="answer-box" id="student-answer"></div>
+                    </div>
+                    <!-- Student Controls -->
+                    <div class="student-controls" id="student-menu">
+                        <div class="game-grid small">
+                            <button class="game-card btn-add" onclick="initStudentGame('add')">➕ Add</button>
+                            <button class="game-card btn-sub" onclick="initStudentGame('sub')">➖ Sub</button>
+                            <button class="game-card btn-mul" onclick="initStudentGame('mul')">✖️ Mul</button>
+                            <button class="game-card btn-div" onclick="initStudentGame('div')">➗ Div</button>
+                        </div>
+                    </div>
+                    <!-- Numpad (Hidden initially) -->
+                    <div class="game-numpad hidden" id="student-numpad">
+                        <button class="g-btn" data-num="1">1</button>
+                        <button class="g-btn" data-num="2">2</button>
+                        <button class="g-btn" data-num="3">3</button>
+                        <button class="g-btn" data-num="4">4</button>
+                        <button class="g-btn" data-num="5">5</button>
+                        <button class="g-btn" data-num="6">6</button>
+                        <button class="g-btn" data-num="7">7</button>
+                        <button class="g-btn" data-num="8">8</button>
+                        <button class="g-btn" data-num="9">9</button>
+                        <button class="g-btn cmd" data-action="del">⌫</button>
+                        <button class="g-btn" data-num="0">0</button>
+                        <button class="g-btn go" data-action="enter">GO! 🚀</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
